@@ -12,7 +12,8 @@ https://msdn.microsoft.com/en-us/library/ie/dn455106.aspx
     <msapplication>
         <tile>
             <!-- Graphic originally by Randall Munroe https://xkcd.com/1682 -->
-            <square70x70logo src='tile.png'/>
+            <square70x70logo src='icon.png'/>
+            <square150x150logo src='tile.png'/>
             <wide310x150logo src='tile-wide.png'/>
         </tile>
     </msapplication>
