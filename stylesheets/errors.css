@@ -1,0 +1,25 @@
+/*
+ * Error styling.
+ *
+ * This is a minimal stylesheet, used to style errors that are shown, when the
+ * user's browser is so outdated, that the bun cannot reasonably load at all,
+ * and thus cannot show a pretty error message.
+ */
+
+.browserupgrade {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    background: #d59b20;
+    color: #fff;
+    padding: 0.4em 0.4em;
+    margin: 0;
+    z-index: 999;
+}
+
+.browserupgrade > a {
+    color: #fff;
+    font-weight: bold;
+}
+
