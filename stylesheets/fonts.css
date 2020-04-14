@@ -1,0 +1,31 @@
+/*
+ * Font definitions.
+ *
+ * This defines the fonts used by Tanura.
+ */
+
+@font-face {
+    font-family: "Roboto";
+    font-weight: 500;
+    src: url("https://cdn.hhmn.de/fonts/Roboto-Medium.ttf");
+}
+
+@font-face {
+    font-family: "Roboto";
+    font-weight: 400;
+    src: url("https://cdn.hhmn.de/fonts/Roboto-Regular.ttf");
+}
+
+@font-face {
+    font-family: "Roboto";
+    font-weight: 300;
+    src: url("https://cdn.hhmn.de/fonts/Roboto-Light.ttf");
+}
+
+body {
+    font-family: "Roboto", sans-serif;
+}
+
+code, kbd, pre, samp {
+    font-family: monospace;
+}
