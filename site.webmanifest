@@ -1,0 +1,12 @@
+{
+  "short_name": "",
+  "name": "",
+  "icons": [{
+    "src": "icon.png",
+    "type": "image/png",
+    "sizes": "60x60"
+  }],
+  "start_url": "/?utm_source=homescreen",
+  "background_color": "#ffffff",
+  "theme_color": "#ffffff"
+}
