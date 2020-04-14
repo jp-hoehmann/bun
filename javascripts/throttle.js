@@ -3,7 +3,7 @@
 /*
  * Helper for throttling resize events.
  *
- * As Tanura may have to do quite heavy lifting upon resize of the browser 
+ * As Bun may have to do quite heavy lifting upon resize of the browser
  * window, depending on usage, this will add a new event, that will also occur 
  * on resizes, but is rate-limited.
  */

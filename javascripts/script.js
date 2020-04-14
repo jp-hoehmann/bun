@@ -3,7 +3,7 @@
 /*
  * Client entrypoint.
  *
- * This script contains all code necessary to bootstrap Tanura in a client.
+ * This script contains all code necessary to bootstrap Bun in a client.
  */
 
 /**
@@ -33,12 +33,12 @@ var canvas;
 
 /**
  * Fake resize indicator.
- * Because of CSS bugs and limitations, Tanura will sometimes have to change
+ * Because of CSS bugs and limitations, Bun will sometimes have to change
  * layout parameters manually in Js. As this happens after the resize, a second
  * resize event may be triggered to give other Js code the ability to react to
- * changes Tanura has made to the layout. In this case, this variable will be
- * set to true, to tell Tanura, that the resize event was a fake resize event
- * triggered by Tanura's own code and should be ignored.
+ * changes Bun has made to the layout. In this case, this variable will be
+ * set to true, to tell Bun, that the resize event was a fake resize event
+ * triggered by Bun's own code and should be ignored.
  */
 var fakeResize = false;
 
@@ -54,7 +54,7 @@ var streamOpts = {
 };
 
 /**
- * The stream options Tanura will fall back to.
+ * The stream options Bun will fall back to.
  * These options will be used when establishing a stream with the default
  * options fails. This is usually due to the user not granting the necessary
  * permissions, the browser not supporting all necessary features, or is
