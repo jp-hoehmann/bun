@@ -6,11 +6,11 @@
 
 # TEAM
 
-    Jean-Pierre Höhmann     -- Webdev   -- @nuvandapv
+    Jean-Pierre Höhmann     -- Webdev           -- @nuvandapv
 
 # THANKS
 
-    Randall Munroe  -- Bun graphics     -- xkcd.com
+    Randall Munroe          -- Bun graphics     -- xkcd.com
 
 # TECHNOLOGY COLOPHON
 
