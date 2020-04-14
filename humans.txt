@@ -8,6 +8,10 @@
 
     Jean-Pierre Höhmann     -- Webdev   -- @nuvandapv
 
+# THANKS
+
+    Randall Munroe  -- Bun graphics     -- xkcd.com
+
 # TECHNOLOGY COLOPHON
 
     CSS3,
