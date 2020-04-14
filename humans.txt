@@ -1,0 +1,16 @@
+#
+# The humans responsible & technology colophon
+#
+# humanstxt.org/
+#
+
+# TEAM
+
+    Jean-Pierre Höhmann     -- Webdev   -- @nuvandapv
+
+# TECHNOLOGY COLOPHON
+
+    CSS3,
+    HTML5,
+    ES6,
+    HTML5 Boilerplate
