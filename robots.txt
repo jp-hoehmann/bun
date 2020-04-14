@@ -1,0 +1,8 @@
+#
+# Web robot control.
+#
+# robotstxt.org/
+#
+
+User-Agent: *
+Allow: /
