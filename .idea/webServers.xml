@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="WebServers">
+    <option name="servers">
+      <webServer id="fdec4e5d-a443-4d91-b042-974eda0eda1b" name="bun.hhmn.de">
+        <fileTransfer rootFolder="/srv/www/bun" accessType="SFTP" host="bun.hhmn.de" port="22" sshConfigId="0a40fec8-1db7-4cf5-8872-a9cd189e4759" sshConfig="root@bun.hhmn.de:22 key" keyPair="true">
+          <advancedOptions>
+            <advancedOptions dataProtectionLevel="Private" passiveMode="true" shareSSLContext="true" />
+          </advancedOptions>
+        </fileTransfer>
+      </webServer>
+    </option>
+  </component>
+</project>
