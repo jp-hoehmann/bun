@@ -28,6 +28,7 @@
 </p>
 <![endif]-->
 
+<!-- Browser upgdate warning for user agents that do not execute JavaScript. -->
 <noscript>
     <p class='browserupgrade'>
         You have JavaScript turned off, but this app requires JavaScript to
@@ -36,6 +37,69 @@
     </p>
 </noscript>
 
+<!-- App -->
+<nav>
+    <div class='left'>
+        <div class='title-btn'></div>
+        <div class='title-text'></div>
+        <div class='title-btn'></div>
+    </div>
+    <header class='center'>
+        <div id='left-btn' class='toggle-btn title-btn'>
+            <i class='fa fa-bars'></i>
+        </div>
+        <div id='app-title' class='title-text'>Bun – It's a rabb.it</div>
+        <div id='users-btn' class='toggle-btn title-btn'>
+            <i class='fa fa-users'></i>
+        </div>
+        <div id='right-btn' class='toggle-btn title-btn'>
+            <i class='fa fa-ellipsis-v'></i>
+        </div>
+    </header>
+    <div class='right'>
+        <div id='back-btn' class='title-btn'>
+            <i class='fa fa-chevron-left'></i>
+        </div>
+        <div class='title-text'></div>
+        <div class='title-btn'></div>
+    </div>
+</nav>
+<div id='content'>
+    <aside id='chat' class='left'>
+        <iframe src='//instant.leet.nu/room/xkcd'></iframe>
+    </aside>
+    <main class='center'>
+        <div id='main'>
+            <div id='people'></div>
+            <div id='presentation' class='hidden'>
+                <div
+                        id='whiteboard'
+                        class='presentation card literally core'></div>
+            </div>
+        </div>
+        <div id='list'></div>
+    </main>
+    <aside id='settings' class='right'>
+        <div class='card'>
+            <h5>Theme</h5>
+            <h6>Styling Options</h6>
+            <p id='colors'></p>
+        </div>
+        <div class='card'>
+            <h5>Presentation</h5>
+            <h6>Presenter Options</h6>
+            <div id='presenter'>
+                <p>
+                    <a id='presentation-toggle'>Open whiteboard</a>
+                </p>
+                <p>
+                    <a id='whiteboard-clear'>Clear whiteboard</a>
+                </p>
+            </div>
+        </div>
+    </aside>
+</div>
+
 <!-- Additional styles -->
 <link rel='stylesheet' href='//cdn.hhmn.de/stylesheets/literallycanvas.css'>
 <link rel='stylesheet' href='//cdn.hhmn.de/stylesheets/fontawesome.css'>
@@ -43,6 +107,7 @@
 <link rel='stylesheet' href='stylesheets/fonts.css'>
 <link rel='stylesheet' href='stylesheets/typo.css'>
 
+<!-- Scripts -->
 <script
         type='text/javascript'
         src='//tanura.hhmn.de/javascripts/erizo.js'></script>
