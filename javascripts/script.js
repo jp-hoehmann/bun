@@ -9,7 +9,7 @@
 /**
  * Base URL for requests to the Nuve backend.
  */
-var nuveUrl = '/nuve/';
+var nuveUrl = '//tanura.hhmn.de/nuve/';
 
 /**
  * Base URL for requests related to the whiteboard.
@@ -49,8 +49,8 @@ var streamOpts = {
     audio: true,
     video: true,
     data: true,
-    screen: false,
-    videoSize: [384, 384, 384, 384]
+    screen: false
+    /* videoSize: [384, 384, 384, 384] */
 };
 
 /**
