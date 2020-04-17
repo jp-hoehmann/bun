@@ -50,18 +50,18 @@ var streamOpts = {
     video: true,
     data: true,
     screen: false
-    /* videoSize: [384, 384, 384, 384] */
 };
 
 /**
  * The stream options Bun will fall back to.
+ *
  * These options will be used when establishing a stream with the default
  * options fails. This is usually due to the user not granting the necessary
  * permissions, the browser not supporting all necessary features, or is
  * blocking some of them due to security concerns.
  */
 var fallbackStreamOpts = {
-    audio: false,
+    audio: true,
     video: false,
     data: true,
     screen: false,
