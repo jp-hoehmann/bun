@@ -49,7 +49,7 @@ var streamOpts = {
     audio: true,
     video: true,
     data: true,
-    screen: false
+    videoSize: [320, 240, 640, 480]
 };
 
 /**
