@@ -65,7 +65,7 @@ let streamOpts = {
  * blocking some of them due to security concerns.
  */
 let fallbackStreamOpts = {
-    audio: true,
+    audio: false,
     video: false,
     data: true,
     screen: false,
