@@ -1,3 +1,3 @@
 # bun
 
-It's a rabb.it.
+It's lagomorphs all the way down
