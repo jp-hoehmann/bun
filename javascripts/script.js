@@ -59,7 +59,7 @@ let fakeResize = false;
 /**
  * Options that should be used to stream.
  */
-let streamOpts = {
+const streamOpts = {
     audio: true,
     video: true,
     data: true,
@@ -74,12 +74,17 @@ let streamOpts = {
  * permissions, the browser not supporting all necessary features, or is
  * blocking some of them due to security concerns.
  */
-let fallbackStreamOpts = {
+const fallbackStreamOpts = {
     audio: false,
     video: false,
     data: true,
     screen: false,
 };
+
+/**
+ * Whether low-bandwidth-mode is engaged.
+ */
+let slideShowMode = false;
 
 /**
  * Fetch a GET-parameter from the url by name.
