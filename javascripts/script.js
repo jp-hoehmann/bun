@@ -35,6 +35,16 @@ let localStream;
 let canvas;
 
 /**
+ * A boolean indicating whether a recording is currently in progress.
+ */
+let recording;
+
+/**
+ * The id of the last recording started.
+ */
+let recordingId;
+
+/**
  * Fake resize indicator.
  *
  * Because of CSS bugs and limitations, Bun will sometimes have to change
@@ -70,8 +80,6 @@ let fallbackStreamOpts = {
     data: true,
     screen: false,
 };
-
-
 
 /**
  * Set a color scheme.
