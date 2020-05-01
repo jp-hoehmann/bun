@@ -82,6 +82,16 @@ let fallbackStreamOpts = {
 };
 
 /**
+ * Fetch a GET-parameter from the url by name.
+ */
+const getParameterByName = (name) => {
+    name = name.replace(/[\[]/, '\\\[').replace(/[\]]/, '\\\]');
+    const regex = new RegExp(`[?&]${name}=([^&#]*)`);
+    const results = regex.exec(location.search);
+    return results == null ? '' : decodeURIComponent(results[1].replace(/\+/g, ' '));
+};
+
+/**
  * Set a color scheme.
  * This will apply a given color scheme to the app.
  */
