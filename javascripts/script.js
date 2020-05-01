@@ -92,6 +92,25 @@ const getParameterByName = (name) => {
 };
 
 /**
+ * Toggle the recording.
+ */
+const startRecording = () => {
+    if (room) {
+        if (!recording) {
+            // noinspection JSUnresolvedFunction
+            room.startRecording(localStream, (id) => {
+                recording = true;
+                recordingId = id;
+            });
+        } else {
+            // noinspection JSUnresolvedFunction
+            room.stopRecording(recordingId);
+            recording = false;
+        }
+    }
+}
+
+/**
  * Set a color scheme.
  * This will apply a given color scheme to the app.
  */
