@@ -113,7 +113,27 @@ const startRecording = () => {
             recording = false;
         }
     }
-}
+};
+
+/**
+ * Toggle bandwith-preserving video on or off.
+ */
+const toggleSlideShowMode = () => {
+    // noinspection JSUnresolvedVariable
+    const streams = room.remoteStreams;
+    const cb = (evt) => {
+        console.log('SlideShowMode changed', evt);
+    };
+    slideShowMode = !slideShowMode;
+    streams.forEach((stream) => {
+        // noinspection JSUnresolvedFunction
+        if (localStream.getID() !== stream.getID()) {
+            console.log('Updating config');
+            // noinspection JSUnresolvedFunction
+            stream.updateConfiguration({ slideShowMode }, cb);
+        }
+    });
+};
 
 /**
  * Set a color scheme.
