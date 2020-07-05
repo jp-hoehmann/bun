@@ -3,46 +3,8 @@
 /*
  * Client entrypoint.
  *
- * This script contains all code necessary to bootstrap Bun in a client.
+ * This script contains all code necessary to make the ui work.
  */
-
-/**
- * Base URL for requests to the Nuve backend.
- */
-const nuveUrl = '//tanura.hhmn.de/nuve/';
-
-// noinspection JSUnusedGlobalSymbols
-/**
- * Base URL for requests related to the whiteboard.
- *
- * This is not currently implemented by the server.
- */
-const whiteboardUrl = '/whiteboard/';
-
-/**
- * The Nuve room the client is connected to.
- */
-let room;
-
-/**
- * The local stream from the browser the client is connected to.
- */
-let localStream;
-
-/**
- * The canvas the whiteboard is set up in.
- */
-let canvas;
-
-/**
- * A boolean indicating whether a recording is currently in progress.
- */
-let recording;
-
-/**
- * The id of the last recording started.
- */
-let recordingId;
 
 /**
  * Fake resize indicator.
@@ -57,85 +19,6 @@ let recordingId;
 let fakeResize = false;
 
 /**
- * Options that should be used to stream.
- */
-const streamOpts = {
-    audio: true,
-    video: true,
-    data: true,
-    videoSize: [320, 240, 640, 480]
-};
-
-/**
- * The stream options Bun will fall back to.
- *
- * These options will be used when establishing a stream with the default
- * options fails. This is usually due to the user not granting the necessary
- * permissions, the browser not supporting all necessary features, or is
- * blocking some of them due to security concerns.
- */
-const fallbackStreamOpts = {
-    audio: false,
-    video: false,
-    data: true,
-    screen: false,
-};
-
-/**
- * Whether low-bandwidth-mode is engaged.
- */
-let slideShowMode = false;
-
-/**
- * Fetch a GET-parameter from the url by name.
- */
-const getParameterByName = (name) => {
-    name = name.replace(/[\[]/, '\\\[').replace(/[\]]/, '\\\]');
-    const regex = new RegExp(`[?&]${name}=([^&#]*)`);
-    const results = regex.exec(location.search);
-    return results == null ? '' : decodeURIComponent(results[1].replace(/\+/g, ' '));
-};
-
-/**
- * Toggle the recording.
- */
-const startRecording = () => {
-    if (room) {
-        if (!recording) {
-            // noinspection JSUnresolvedFunction
-            room.startRecording(localStream, (id) => {
-                recording = true;
-                recordingId = id;
-            });
-        } else {
-            // noinspection JSUnresolvedFunction
-            room.stopRecording(recordingId);
-            recording = false;
-        }
-    }
-};
-
-/**
- * Toggle bandwith-preserving video on or off.
- */
-const toggleSlideShowMode = () => {
-    // noinspection JSUnresolvedVariable
-    const streams = room.remoteStreams;
-    const cb = (evt) => {
-        console.log('SlideShowMode changed', evt);
-    };
-    slideShowMode = !slideShowMode;
-    streams.forEach((stream) => {
-        // noinspection JSUnresolvedFunction
-        if (localStream.getID() !== stream.getID()) {
-            console.log('Updating config');
-            // noinspection JSUnresolvedFunction
-            stream.updateConfiguration({ slideShowMode }, cb);
-        }
-    });
-};
-
-/**
  * Set a color scheme.
  * This will apply a given color scheme to the app.
  */
@@ -143,23 +26,6 @@ const colorize = (colorScheme) => {
     const e = document.getElementsByTagName('nav')[0];
     e.style.backgroundColor = '#' + colorScheme[1];
     e.className = colorScheme[2] ? 'inverted' : '';
-}
-
-/**
- * This will initialize the whiteboard on the canvas from a given snapshot.
- */
-const mkCanvas = (snapshot) => {
-    // noinspection JSUnresolvedVariable,JSUnresolvedFunction
-    canvas = LC.init(
-        document.getElementById('whiteboard'),
-        {snapshot: snapshot});
-    // noinspection JSUnresolvedFunction,JSUnresolvedVariable
-    canvas.setTool(new LC.tools.Pencil(canvas));
-    // noinspection JSUnresolvedFunction
-    canvas.on('drawEnd', () => localStream.sendData({
-        type: 'canvas-draw',
-        data: canvas.getSnapshot()
-    }));
 }
 
 window.onload = () => {
@@ -292,171 +158,10 @@ window.onload = () => {
         e.appendChild(_);
     }
 
-    // Event handler for the buttons that control the whiteboard.
-    document.getElementById('presentation-toggle').addEventListener('click', () => {
-        document.getElementById('presentation-toggle').textContent
-            = document.getElementById('presentation').classList.toggle('hidden')
-            ? 'Open whiteboard' : 'Close whiteboard';
-        dispatchEvent(new Event('resize'));
-    });
-    document
-        .getElementById('whiteboard-clear')
-        .addEventListener('click', () => {
-            canvas.clear();
-            // noinspection JSUnresolvedFunction
-            localStream.sendData({type: 'canvas-clear'})
-        });
-
     // Fetch color scheme.
     const colorScheme = localStorage.getItem('colorScheme');
     if (colorScheme) { colorize(JSON.parse(colorScheme)); }
 
-    // Prepare a request for a room token.
-    const req = new XMLHttpRequest();
-    req.addEventListener('load', function() {
-        const token = this.responseText;
-        console.log(token);
-        // noinspection JSUnresolvedVariable,JSUnresolvedFunction
-        room = Erizo.Room({token: token});
-        const join = function() {
-            // Add a single stream to the DOM.
-            const addStream = function(stream, options) {
-                // noinspection JSUnresolvedFunction
-                if (stream.hasVideo()) {
-                    const videoEntry = document.createElement('div');
-                    // noinspection JSUnresolvedFunction
-                    videoEntry.setAttribute('id', 'videoEntry_' + stream.getID());
-                    document.getElementById('people').appendChild(videoEntry);
-                    // noinspection JSUnresolvedFunction
-                    stream.show('videoEntry_' + stream.getID(), options);
-                }
-            };
-
-            // Subscribe to a list of streams.
-            const subscribeToStreams = function(streams) {
-                for (let i of streams) {
-                    // noinspection JSIgnoredPromiseFromCall
-                    room.subscribe(streams[i]);
-                    streams[i].addEventListener('bandwidth-alert', function(e) {
-                        // noinspection JSUnresolvedVariable
-                        console.log('Bandwidth Alert', e.msg, e.bandwidth);
-                    });
-                    streams[i].addEventListener('stream-data', (e) => {
-                        // noinspection JSUnresolvedVariable
-                        switch(e.msg.type) {
-                            case 'canvas-clear':
-                                canvas.clear();
-                                console.log('Cleared the whiteboard.');
-                                break;
-                            case 'canvas-draw':
-                                // noinspection JSUnresolvedFunction,JSUnresolvedVariable
-                                canvas.loadSnapshot(e.msg.data);
-                                console.log('Loaded a whiteboard change.');
-                                break;
-                            case 'canvas-init':
-                                if (!canvas) {
-                                    // noinspection JSUnresolvedVariable
-                                    mkCanvas(e.msg.data);
-                                }
-                                console.log(
-                                    'Created canvas from existing snapshot.');
-                                break;
-                            default:
-                                console.log(
-                                    'Ignoring packet of unknown type.');
-                        }
-                    });
-                }
-            };
-
-            // This will run as soon a signalling if fully initialized.
-            room.addEventListener('room-connected', function(roomEvent) {
-                // If we are the only one in the room, add a fresh whiteboard.
-                if (roomEvent.streams.length === 0) {
-                    mkCanvas();
-                    console.log('Created new canvas.');
-                }
-
-                // Publish the local stream.
-                // noinspection JSUnresolvedFunction
-                room.publish(localStream, {maxVideoBW: 300});
-                subscribeToStreams(roomEvent.streams);
-            });
-
-            // This will run whenever the client was successfully subscribed to
-            // a new stream.
-            room.addEventListener(
-                'stream-subscribed',
-                function(_) { addStream(_.stream); });
-
-            // This will run whenever a new stream was added to the room.
-            room.addEventListener('stream-added', function(streamEvent) {
-                // noinspection JSUnresolvedFunction
-                if (localStream.getID() !== streamEvent.stream.getID()) {
-                    subscribeToStreams([streamEvent.stream]);
-                }
-
-                // Send the newcomer the current state of the whiteboard. This
-                // is wasteful as the new client will get the state by each
-                // other client, but I don't know a better way to do it. The way
-                // forward will likely be to have the server control the
-                // whiteboard.
-                // noinspection JSUnresolvedFunction
-                localStream.sendData({
-                    type: 'canvas-init',
-                    data: canvas.getSnapshot()
-                });
-            });
-
-            // This will run whenever a stream disappeared from the room.
-            room.addEventListener('stream-removed', function(streamEvent) {
-                // noinspection JSUnresolvedFunction
-                document
-                    .getElementById('videoEntry_' + streamEvent.stream.getID())
-                    .remove();
-            });
-
-            // This will run if opening the stream has failed.
-            // noinspection JSUnusedLocalSymbols
-            room.addEventListener('stream-failed', function(streamEvent){
-                // FIXME This needs error handling.
-                console.log('Stream Failed... uh-oh');
-            });
-
-            // All set. Connect to the room and attach the local stream.
-            room.connect();
-            addStream(localStream, {speaker: false});
-        }
-
-        // Get local media.
-        // noinspection JSUnresolvedVariable,JSUnresolvedFunction
-        localStream = Erizo.Stream(streamOpts);
-        // noinspection JSUnusedLocalSymbols
-        localStream.addEventListener('access-accepted', function(event) {
-            join();
-        });
-        // noinspection JSUnusedLocalSymbols
-        localStream.addEventListener('access-denied', function(event) {
-            localStream.close();
-            // noinspection JSUnresolvedVariable,JSUnresolvedFunction
-            localStream = Erizo.Stream(fallbackStreamOpts);
-            // noinspection JSUnusedLocalSymbols
-            localStream.addEventListener('access-accepted', function(event) {
-                join();
-            });
-            // noinspection JSUnusedLocalSymbols
-            localStream.addEventListener('access-denied', function(event) {
-                console.log('Stream creation failed.');
-            });
-            // noinspection JSUnresolvedFunction
-            localStream.init();
-        });
-        // noinspection JSUnresolvedFunction
-        localStream.init();
-    });
-    req.open('POST', nuveUrl + 'createToken/', true);
-    req.setRequestHeader('Content-Type', 'application/json');
-
-    // Send the room-token request.
-    req.send(JSON.stringify({username: 'user', role: 'presenter'}));
+    // Fire up the actual magic.
+    window.startBun();
 }
