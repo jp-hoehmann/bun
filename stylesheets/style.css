@@ -124,6 +124,7 @@ iframe {
 }
 
 #people > * > * {
+    /*noinspection CssInvalidPropertyValue*/
     -webkit-mask-image: -webkit-radial-gradient(circle, white 100%, black 100%);
 }
 
