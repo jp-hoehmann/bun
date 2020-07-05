@@ -66,7 +66,7 @@ function startRecording() {
 
 // noinspection JSUnusedGlobalSymbols
 /**
- * Toggle bandwith-preserving video on or off.
+ * Toggle bandwidth-preserving video on or off.
  */
 const toggleSlideShowMode = () => {
     const streams = window.room.remoteStreams;
