@@ -35,6 +35,7 @@ window.recording = false;
  */
 window.recordingId = '';
 
+// noinspection JSUnusedGlobalSymbols
 /**
  * Fetch a GET-parameter from the url by name.
  */
@@ -45,6 +46,7 @@ const getParameterByName = (name) => {
     return results == null ? '' : decodeURIComponent(results[1].replace(/\+/g, ' '));
 };
 
+// noinspection JSUnusedGlobalSymbols
 /**
  * Toggle the recording
  */
@@ -62,6 +64,7 @@ function startRecording() {
     }
 }
 
+// noinspection JSUnusedGlobalSymbols
 /**
  * Toggle bandwith-preserving video on or off.
  */
@@ -120,7 +123,7 @@ window.startBun = () => {
     };
 
     const roomData = {
-        username: `user ${parseInt(Math.random() * 100, 10)}`,
+        username: `user ${parseInt("" + Math.random() * 100, 10)}`,
         role: 'presenter',
         room: roomName,
         type: roomType,
